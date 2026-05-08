@@ -84,33 +84,12 @@ root.dataset.theme = initialTheme;
 document.querySelectorAll(".consciousness-panel").forEach((panel) => {
   const canvas = panel.querySelector(".neural-canvas");
   const context = canvas?.getContext?.("2d");
-  const modeButtons = [...panel.querySelectorAll(".mode-chip")];
-  const activateButton = document.querySelector(".hero-activate");
+  const portrait = panel.querySelector(".portrait-stage");
   let width = 0;
   let height = 0;
   let frame = 0;
-  let mode = "hybrid";
   let points = [];
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-  const modes = {
-    human: { count: 22, speed: 0.18, link: 110 },
-    hybrid: { count: 34, speed: 0.32, link: 135 },
-    machine: { count: 48, speed: 0.48, link: 160 },
-  };
-
-  const setMode = (nextMode) => {
-    mode = nextMode;
-    panel.classList.remove("mode-human", "mode-hybrid", "mode-machine");
-    panel.classList.add(`mode-${mode}`);
-    modeButtons.forEach((button) => {
-      button.classList.toggle("active", button.dataset.mode === mode);
-    });
-    if (activateButton) {
-      activateButton.textContent = mode === "machine" ? "Return to hybrid" : "Activate machine layer";
-    }
-    seedPoints();
-  };
 
   const resize = () => {
     if (!canvas || !context) return;
@@ -125,19 +104,17 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
   };
 
   const seedPoints = () => {
-    const config = modes[mode];
-    points = Array.from({ length: config.count }, () => ({
+    points = Array.from({ length: 38 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * config.speed,
-      vy: (Math.random() - 0.5) * config.speed,
+      vx: (Math.random() - 0.5) * 0.34,
+      vy: (Math.random() - 0.5) * 0.34,
       r: 1 + Math.random() * 2,
     }));
   };
 
   const draw = () => {
     if (!context || !canvas || !width || !height) return;
-    const config = modes[mode];
     context.clearRect(0, 0, width, height);
     context.lineWidth = 1;
 
@@ -155,8 +132,8 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
         const a = points[i];
         const b = points[j];
         const distance = Math.hypot(a.x - b.x, a.y - b.y);
-        if (distance > config.link) continue;
-        const alpha = (1 - distance / config.link) * (mode === "machine" ? 0.28 : 0.18);
+        if (distance > 145) continue;
+        const alpha = (1 - distance / 145) * 0.22;
         context.strokeStyle = `rgba(127, 215, 217, ${alpha})`;
         context.beginPath();
         context.moveTo(a.x, a.y);
@@ -178,23 +155,22 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
   };
 
   const updatePointer = (event) => {
-    const rect = panel.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-    panel.style.setProperty("--mx", `${Math.max(0, Math.min(1, x)) * 100}%`);
-    panel.style.setProperty("--my", `${Math.max(0, Math.min(1, y)) * 100}%`);
-    panel.style.setProperty("--mx-num", Math.max(0, Math.min(1, x)).toFixed(3));
-    panel.style.setProperty("--my-num", Math.max(0, Math.min(1, y)).toFixed(3));
+    const panelRect = panel.getBoundingClientRect();
+    const panelX = (event.clientX - panelRect.left) / panelRect.width;
+    const panelY = (event.clientY - panelRect.top) / panelRect.height;
+    panel.style.setProperty("--mx", `${Math.max(0, Math.min(1, panelX)) * 100}%`);
+    panel.style.setProperty("--my", `${Math.max(0, Math.min(1, panelY)) * 100}%`);
+    panel.style.setProperty("--mx-num", Math.max(0, Math.min(1, panelX)).toFixed(3));
+    panel.style.setProperty("--my-num", Math.max(0, Math.min(1, panelY)).toFixed(3));
+
+    if (!portrait) return;
+    const portraitRect = portrait.getBoundingClientRect();
+    const portraitX = (event.clientX - portraitRect.left) / portraitRect.width;
+    const portraitY = (event.clientY - portraitRect.top) / portraitRect.height;
+    portrait.style.setProperty("--rx", `${Math.max(0, Math.min(1, portraitX)) * 100}%`);
+    portrait.style.setProperty("--ry", `${Math.max(0, Math.min(1, portraitY)) * 100}%`);
+    portrait.classList.add("revealing");
   };
-
-  modeButtons.forEach((button) => {
-    button.addEventListener("click", () => setMode(button.dataset.mode || "hybrid"));
-  });
-
-  activateButton?.addEventListener("click", () => {
-    setMode(mode === "machine" ? "hybrid" : "machine");
-    panel.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
 
   panel.addEventListener("pointermove", updatePointer);
   panel.addEventListener("pointerleave", () => {
@@ -202,6 +178,11 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
     panel.style.setProperty("--my", "42%");
     panel.style.setProperty("--mx-num", "0.5");
     panel.style.setProperty("--my-num", "0.42");
+    if (portrait) {
+      portrait.classList.remove("revealing");
+      portrait.style.setProperty("--rx", "50%");
+      portrait.style.setProperty("--ry", "42%");
+    }
   });
 
   if (context) {
@@ -209,8 +190,6 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
     draw();
     window.addEventListener("resize", resize);
   }
-
-  setMode("hybrid");
 });
 
 document.querySelectorAll(".topbar").forEach((topbar) => {
