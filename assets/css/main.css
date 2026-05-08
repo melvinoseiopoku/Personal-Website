@@ -469,7 +469,9 @@ main,
 .portrait-stage {
   --rx: 50%;
   --ry: 42%;
-  --reveal-size: 0px;
+  --reveal-core: 0px;
+  --reveal-lobe: 0px;
+  --reveal-mist: 0px;
   position: relative;
   width: min(100%, 500px);
   aspect-ratio: 4 / 5;
@@ -505,15 +507,25 @@ main,
   z-index: 3;
   opacity: 0;
   filter: saturate(1.08) contrast(1.08);
-  -webkit-mask-image: radial-gradient(circle at var(--rx) var(--ry), #000 0 var(--reveal-size), transparent calc(var(--reveal-size) + 46px));
-  mask-image: radial-gradient(circle at var(--rx) var(--ry), #000 0 var(--reveal-size), transparent calc(var(--reveal-size) + 46px));
+  -webkit-mask-image:
+    radial-gradient(ellipse at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.78) calc(var(--reveal-core) + 28px), transparent calc(var(--reveal-core) + 78px)),
+    radial-gradient(circle at calc(var(--rx) + 52px) calc(var(--ry) - 34px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 38px)),
+    radial-gradient(circle at calc(var(--rx) - 44px) calc(var(--ry) + 38px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 44px)),
+    radial-gradient(circle at calc(var(--rx) + 24px) calc(var(--ry) + 70px), rgba(0, 0, 0, 0.7) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 38px));
+  mask-image:
+    radial-gradient(ellipse at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.78) calc(var(--reveal-core) + 28px), transparent calc(var(--reveal-core) + 78px)),
+    radial-gradient(circle at calc(var(--rx) + 52px) calc(var(--ry) - 34px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 38px)),
+    radial-gradient(circle at calc(var(--rx) - 44px) calc(var(--ry) + 38px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 44px)),
+    radial-gradient(circle at calc(var(--rx) + 24px) calc(var(--ry) + 70px), rgba(0, 0, 0, 0.7) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 38px));
   transition: opacity 180ms ease, filter 180ms ease;
 }
 
 .portrait-stage:hover .robot-portrait,
 .portrait-stage:focus-within .robot-portrait,
 .portrait-stage.revealing .robot-portrait {
-  --reveal-size: 128px;
+  --reveal-core: 112px;
+  --reveal-lobe: 54px;
+  --reveal-mist: 34px;
   opacity: 1;
 }
 
@@ -685,17 +697,38 @@ main,
   left: var(--rx);
   top: var(--ry);
   z-index: 8;
-  width: 260px;
-  height: 260px;
+  width: 285px;
+  height: 230px;
   border: 1px solid rgba(127, 215, 217, 0.8);
-  border-radius: 50%;
+  border-radius: 56% 44% 58% 42% / 48% 62% 38% 52%;
   transform: translate(-50%, -50%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 160ms ease;
+  transition: opacity 160ms ease, width 180ms ease, height 180ms ease;
   box-shadow:
     inset 0 0 24px rgba(127, 215, 217, 0.22),
     0 0 28px rgba(127, 215, 217, 0.22);
+  animation: liquidCursor 2.8s ease-in-out infinite;
+}
+
+.reveal-ring::before,
+.reveal-ring::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(240, 139, 111, 0.5);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.reveal-ring::before {
+  inset: 18px -14px -8px 22px;
+  transform: rotate(18deg);
+}
+
+.reveal-ring::after {
+  inset: -10px 34px 22px -18px;
+  border-color: rgba(127, 215, 217, 0.42);
+  transform: rotate(-24deg);
 }
 
 .portrait-stage:hover .reveal-ring,
@@ -806,9 +839,25 @@ main,
   to { transform: rotate(360deg); }
 }
 
+@keyframes liquidCursor {
+  0%, 100% {
+    border-radius: 56% 44% 58% 42% / 48% 62% 38% 52%;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  35% {
+    border-radius: 44% 56% 39% 61% / 62% 42% 58% 38%;
+    transform: translate(-50%, -50%) rotate(7deg) scale(1.04, 0.96);
+  }
+  70% {
+    border-radius: 63% 37% 52% 48% / 40% 58% 42% 60%;
+    transform: translate(-50%, -50%) rotate(-5deg) scale(0.96, 1.05);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .consciousness-panel::after,
   .scan-beam,
+  .reveal-ring,
   .neural-mesh path,
   .neural-mesh circle {
     animation: none;
