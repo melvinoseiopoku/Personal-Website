@@ -90,6 +90,20 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
   let frame = 0;
   let points = [];
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const liquid = {
+    active: false,
+    raf: 0,
+    x: 0.5,
+    y: 0.42,
+    tx: 0.5,
+    ty: 0.42,
+    x2: 0.48,
+    y2: 0.43,
+    x3: 0.51,
+    y3: 0.41,
+    x4: 0.49,
+    y4: 0.44,
+  };
 
   const resize = () => {
     if (!canvas || !context) return;
@@ -167,9 +181,47 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
     const portraitRect = portrait.getBoundingClientRect();
     const portraitX = (event.clientX - portraitRect.left) / portraitRect.width;
     const portraitY = (event.clientY - portraitRect.top) / portraitRect.height;
-    portrait.style.setProperty("--rx", `${Math.max(0, Math.min(1, portraitX)) * 100}%`);
-    portrait.style.setProperty("--ry", `${Math.max(0, Math.min(1, portraitY)) * 100}%`);
+    liquid.tx = Math.max(0, Math.min(1, portraitX));
+    liquid.ty = Math.max(0, Math.min(1, portraitY));
+    liquid.active = true;
     portrait.classList.add("revealing");
+    if (!liquid.raf) liquid.raf = requestAnimationFrame(animateLiquid);
+  };
+
+  const setLiquidVars = () => {
+    if (!portrait) return;
+    portrait.style.setProperty("--rx", `${liquid.x * 100}%`);
+    portrait.style.setProperty("--ry", `${liquid.y * 100}%`);
+    portrait.style.setProperty("--rx2", `${liquid.x2 * 100}%`);
+    portrait.style.setProperty("--ry2", `${liquid.y2 * 100}%`);
+    portrait.style.setProperty("--rx3", `${liquid.x3 * 100}%`);
+    portrait.style.setProperty("--ry3", `${liquid.y3 * 100}%`);
+    portrait.style.setProperty("--rx4", `${liquid.x4 * 100}%`);
+    portrait.style.setProperty("--ry4", `${liquid.y4 * 100}%`);
+  };
+
+  const animateLiquid = () => {
+    liquid.x += (liquid.tx - liquid.x) * 0.42;
+    liquid.y += (liquid.ty - liquid.y) * 0.42;
+    liquid.x2 += (liquid.x - liquid.x2) * 0.19;
+    liquid.y2 += (liquid.y - liquid.y2) * 0.19;
+    liquid.x3 += (liquid.x2 - liquid.x3) * 0.13;
+    liquid.y3 += (liquid.y2 - liquid.y3) * 0.13;
+    liquid.x4 += (liquid.x3 - liquid.x4) * 0.09;
+    liquid.y4 += (liquid.y3 - liquid.y4) * 0.09;
+    setLiquidVars();
+
+    const stillMoving =
+      Math.abs(liquid.tx - liquid.x) +
+      Math.abs(liquid.ty - liquid.y) +
+      Math.abs(liquid.x - liquid.x2) +
+      Math.abs(liquid.y - liquid.y2) > 0.002;
+
+    if (liquid.active || stillMoving) {
+      liquid.raf = requestAnimationFrame(animateLiquid);
+    } else {
+      liquid.raf = 0;
+    }
   };
 
   panel.addEventListener("pointermove", updatePointer);
@@ -180,8 +232,10 @@ document.querySelectorAll(".consciousness-panel").forEach((panel) => {
     panel.style.setProperty("--my-num", "0.42");
     if (portrait) {
       portrait.classList.remove("revealing");
-      portrait.style.setProperty("--rx", "50%");
-      portrait.style.setProperty("--ry", "42%");
+      liquid.active = false;
+      liquid.tx = 0.5;
+      liquid.ty = 0.42;
+      if (!liquid.raf) liquid.raf = requestAnimationFrame(animateLiquid);
     }
   });
 

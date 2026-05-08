@@ -469,6 +469,12 @@ main,
 .portrait-stage {
   --rx: 50%;
   --ry: 42%;
+  --rx2: 48%;
+  --ry2: 43%;
+  --rx3: 51%;
+  --ry3: 41%;
+  --rx4: 49%;
+  --ry4: 44%;
   --reveal-core: 0px;
   --reveal-lobe: 0px;
   --reveal-mist: 0px;
@@ -508,24 +514,24 @@ main,
   opacity: 0;
   filter: saturate(1.08) contrast(1.08);
   -webkit-mask-image:
-    radial-gradient(ellipse at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.78) calc(var(--reveal-core) + 28px), transparent calc(var(--reveal-core) + 78px)),
-    radial-gradient(circle at calc(var(--rx) + 52px) calc(var(--ry) - 34px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 38px)),
-    radial-gradient(circle at calc(var(--rx) - 44px) calc(var(--ry) + 38px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 44px)),
-    radial-gradient(circle at calc(var(--rx) + 24px) calc(var(--ry) + 70px), rgba(0, 0, 0, 0.7) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 38px));
+    radial-gradient(ellipse 68px 45px at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.86) calc(var(--reveal-core) + 12px), transparent calc(var(--reveal-core) + 40px)),
+    radial-gradient(ellipse 52px 35px at var(--rx2) var(--ry2), rgba(0, 0, 0, 0.9) 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 28px)),
+    radial-gradient(ellipse 42px 32px at var(--rx3) var(--ry3), rgba(0, 0, 0, 0.72) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 25px)),
+    radial-gradient(ellipse 33px 24px at var(--rx4) var(--ry4), rgba(0, 0, 0, 0.58) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 21px));
   mask-image:
-    radial-gradient(ellipse at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.78) calc(var(--reveal-core) + 28px), transparent calc(var(--reveal-core) + 78px)),
-    radial-gradient(circle at calc(var(--rx) + 52px) calc(var(--ry) - 34px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 38px)),
-    radial-gradient(circle at calc(var(--rx) - 44px) calc(var(--ry) + 38px), #000 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 44px)),
-    radial-gradient(circle at calc(var(--rx) + 24px) calc(var(--ry) + 70px), rgba(0, 0, 0, 0.7) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 38px));
+    radial-gradient(ellipse 68px 45px at var(--rx) var(--ry), #000 0 var(--reveal-core), rgba(0, 0, 0, 0.86) calc(var(--reveal-core) + 12px), transparent calc(var(--reveal-core) + 40px)),
+    radial-gradient(ellipse 52px 35px at var(--rx2) var(--ry2), rgba(0, 0, 0, 0.9) 0 var(--reveal-lobe), transparent calc(var(--reveal-lobe) + 28px)),
+    radial-gradient(ellipse 42px 32px at var(--rx3) var(--ry3), rgba(0, 0, 0, 0.72) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 25px)),
+    radial-gradient(ellipse 33px 24px at var(--rx4) var(--ry4), rgba(0, 0, 0, 0.58) 0 var(--reveal-mist), transparent calc(var(--reveal-mist) + 21px));
   transition: opacity 180ms ease, filter 180ms ease;
 }
 
 .portrait-stage:hover .robot-portrait,
 .portrait-stage:focus-within .robot-portrait,
 .portrait-stage.revealing .robot-portrait {
-  --reveal-core: 112px;
-  --reveal-lobe: 54px;
-  --reveal-mist: 34px;
+  --reveal-core: 44px;
+  --reveal-lobe: 31px;
+  --reveal-mist: 19px;
   opacity: 1;
 }
 
@@ -697,10 +703,10 @@ main,
   left: var(--rx);
   top: var(--ry);
   z-index: 8;
-  width: 285px;
-  height: 230px;
+  width: 164px;
+  height: 122px;
   border: 1px solid rgba(127, 215, 217, 0.8);
-  border-radius: 56% 44% 58% 42% / 48% 62% 38% 52%;
+  border-radius: 61% 39% 56% 44% / 43% 58% 42% 57%;
   transform: translate(-50%, -50%);
   opacity: 0;
   pointer-events: none;
@@ -721,14 +727,14 @@ main,
 }
 
 .reveal-ring::before {
-  inset: 18px -14px -8px 22px;
-  transform: rotate(18deg);
+  inset: 12px -8px -3px 16px;
+  transform: rotate(22deg);
 }
 
 .reveal-ring::after {
-  inset: -10px 34px 22px -18px;
+  inset: -7px 22px 14px -10px;
   border-color: rgba(127, 215, 217, 0.42);
-  transform: rotate(-24deg);
+  transform: rotate(-28deg);
 }
 
 .portrait-stage:hover .reveal-ring,
@@ -841,16 +847,20 @@ main,
 
 @keyframes liquidCursor {
   0%, 100% {
-    border-radius: 56% 44% 58% 42% / 48% 62% 38% 52%;
+    border-radius: 61% 39% 56% 44% / 43% 58% 42% 57%;
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
-  35% {
-    border-radius: 44% 56% 39% 61% / 62% 42% 58% 38%;
-    transform: translate(-50%, -50%) rotate(7deg) scale(1.04, 0.96);
+  28% {
+    border-radius: 46% 54% 37% 63% / 64% 39% 61% 36%;
+    transform: translate(-50%, -50%) rotate(10deg) scale(1.08, 0.9);
   }
-  70% {
-    border-radius: 63% 37% 52% 48% / 40% 58% 42% 60%;
-    transform: translate(-50%, -50%) rotate(-5deg) scale(0.96, 1.05);
+  58% {
+    border-radius: 68% 32% 62% 38% / 35% 66% 34% 65%;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(0.9, 1.08);
+  }
+  82% {
+    border-radius: 39% 61% 48% 52% / 58% 44% 56% 42%;
+    transform: translate(-50%, -50%) rotate(4deg) scale(1.02, 0.96);
   }
 }
 
