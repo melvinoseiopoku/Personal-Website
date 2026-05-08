@@ -82,6 +82,31 @@ const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
 root.dataset.theme = initialTheme;
 
 document.querySelectorAll(".topbar").forEach((topbar) => {
+  if (!topbar.querySelector(".nav-toggle")) {
+    const nav = topbar.querySelector(".nav");
+    const toggleNav = document.createElement("button");
+    toggleNav.className = "nav-toggle";
+    toggleNav.type = "button";
+    toggleNav.setAttribute("aria-label", "Open menu");
+    toggleNav.setAttribute("aria-expanded", "false");
+    toggleNav.innerHTML = "<span></span><span></span><span></span>";
+    nav?.before(toggleNav);
+
+    toggleNav.addEventListener("click", () => {
+      const isOpen = topbar.classList.toggle("nav-open");
+      toggleNav.setAttribute("aria-expanded", String(isOpen));
+      toggleNav.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    });
+
+    nav?.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        topbar.classList.remove("nav-open");
+        toggleNav.setAttribute("aria-expanded", "false");
+        toggleNav.setAttribute("aria-label", "Open menu");
+      });
+    });
+  }
+
   if (topbar.querySelector(".theme-toggle")) return;
   const toggle = document.createElement("button");
   toggle.className = "theme-toggle";
@@ -116,6 +141,14 @@ document.querySelectorAll(".autoplay-video").forEach((video) => {
   video.muted = true;
   video.playsInline = true;
   video.play?.().catch(() => {});
+
+  if (video.classList.contains("audio-video")) {
+    video.addEventListener("click", () => {
+      video.muted = false;
+      video.volume = 1;
+      video.play?.().catch(() => {});
+    });
+  }
 });
 
 document.querySelectorAll(".youtube-frame").forEach((frame) => {
