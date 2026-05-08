@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research | Melvin Opoku</title>
+  <meta name="description" content="Research projects by Melvin Opoku.">
+  <link rel="icon" href="assets/img/favicon.webp">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.webp">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">MO</span><span>Melvin Opoku</span></a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="news.html">News</a>
+      <a href="assets/docs/melvin-opoku-cv.pdf">CV</a>
+      <a href="publications.html">Publications</a>
+      <a href="life.html">Life</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Research</p>
+      <h1>Projects</h1>
+      <p>Research and engineering projects in reverse chronological order.</p>
+    </section>
+
+    <section class="project-list" aria-label="Research projects">
+      <article class="project" id="eeg-mrs">
+        <div class="project-media">
+          <img src="assets/img/portfolio/eeg-mrs-lab-1.jpg" alt="EEG-MRS research materials in the Lewis Lab">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">Lewis Lab, MIT, Summer 2025</p>
+          <h2>Sleep Stage Classification With EEG-MRS</h2>
+          <p class="role">Research intern, MIT Summer Research Program</p>
+          <p>I worked in Professor Laura Lewis's lab on a study of neurochemical changes across sleep and arousal states. The project used simultaneous EEG and HERCULES-edited magnetic resonance spectroscopy to connect physiological sleep state labels with metabolite estimates in human brain data.</p>
+          <p>My main contribution was segmenting EEG recordings into sleep-stage windows aligned to MRS acquisition timing. I helped classify artifact-free EEG epochs, organize the resulting labels, and use those labels to segment MRS data so metabolite estimates could be compared across arousal states with stronger signal-to-noise constraints.</p>
+          <p>The project sharpened how I think about human neuroscience data. EEG gives useful timing but limited spatial specificity, while MRS gives chemical information averaged across larger tissue volumes. Working with both made the measurement problem feel concrete: better models matter, but the field also needs better ways to capture the signals themselves.</p>
+          <p class="outcomes"><strong>Outcomes:</strong> MIT MSRP poster and study report. <a href="assets/docs/MSRP-Poster.pdf">Poster</a> <a href="assets/docs/EEG-MRS-Study.pdf">Report</a> <a href="https://www.lewisneurolab.org">Lab website</a></p>
+        </div>
+      </article>
+
+      <article class="project" id="connectomics">
+        <div class="project-media">
+          <img src="assets/img/portfolio/connectome-poster-1.jpg" alt="Poster presentation for connectomics work">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">Murthy Lab, Princeton Neuroscience Institute, Summer 2024</p>
+          <h2>Connectome Analysis of LC11 Neurons</h2>
+          <p class="role">Research intern</p>
+          <p>At Princeton, I worked with FlyWire electron microscopy connectome data to study Lobula Columnar 11 neurons in the Drosophila visual system. LC11 neurons are involved in small-object motion detection, which makes them a useful system for thinking about how structure and computation relate.</p>
+          <p>I analyzed synaptic connectivity patterns and compared anatomical structure against existing functional hypotheses. The results pushed against a simple center-surround inhibition story: the connectome showed a striking predominance of inhibitory synapses, raising new questions about how LC11 circuits implement selectivity.</p>
+          <p>This project made connectomics both exciting and incomplete to me. A wiring diagram can reveal structure at extraordinary resolution, but it is still a static record. The experience pushed me toward questions about how to connect anatomical maps with live neural dynamics.</p>
+          <p class="outcomes"><strong>Outcomes:</strong> Society for Neuroscience 2024 presentation and Princeton poster. <a href="assets/docs/Connectomics-Poster.pdf">Poster</a> <a href="https://murthylab.princeton.edu">Lab website</a></p>
+        </div>
+      </article>
+
+      <article class="project" id="tic-detection">
+        <div class="project-media">
+          <img src="assets/img/portfolio/app-1.jpg" alt="Research presentation for tic detection work">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">Brain Mapping Lab, University of Florida, 2023-2025</p>
+          <h2>Tic Detection Machine Learning Pipeline</h2>
+          <p class="role">Undergraduate research assistant</p>
+          <p>In the Brain Mapping Lab, I worked on objective methods for detecting tics in Tourette syndrome studies involving deep brain stimulation. The project began with the practical problem of annotation: manually labeling video into tic and non-tic segments was slow, inconsistent, and difficult to scale.</p>
+          <p>I helped build a pipeline for comparing video-based labels with electromyography-based detection. My work included data labeling, validation, analysis, visualization, and writing for the resulting manuscript. The work showed that simple EMG thresholding is useful for distinguishing rest from movement but is not enough on its own for reliable event-level tic detection.</p>
+          <p>The most important lesson for me was that clinical neural engineering needs measurement tools that respect the variability of real patients. Multimodal systems are harder to build, but they can reduce annotation burden and provide more reliable ways to evaluate symptoms over time.</p>
+          <p class="outcomes"><strong>Outcomes:</strong> peer-reviewed publication in <em>Clinical Parkinsonism &amp; Related Disorders</em>; BMES 2024 presentation. <a href="https://doi.org/10.1016/j.prdoa.2026.100438">Publication</a> <a href="https://brainmappinglab.org">Lab website</a></p>
+        </div>
+      </article>
+
+      <article class="project" id="bone-density-pcb">
+        <div class="project-media">
+          <img src="assets/img/portfolio/branding-2.jpg" alt="Engineering and research presentation setting">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">University of Florida / Exactech project, 2025</p>
+          <h2>Bone Density Measurement Product Design</h2>
+          <p class="role">Product designer</p>
+          <p>I designed and brought up a custom PCB-based bioimpedance measurement system using an AD5941 analog front end and STM32G0 microcontroller. The project required schematic design, PCB layout, soldering, firmware bring-up, and hardware validation.</p>
+          <p>On the firmware side, I wrote Embedded C for SPI, I2C, OLED display control, GPIO, reset behavior, and interrupt testing. I also debugged mixed-signal behavior during board bring-up, which forced me to work across the boundary between circuit design, firmware assumptions, and physical measurements.</p>
+          <p>This project gave me a more practical engineering lens for measurement systems. It is one thing to analyze clean data after collection; it is another to build the device that has to produce trustworthy data in the first place.</p>
+          <p class="outcomes"><strong>Outcomes:</strong> schematic, PCB layout, firmware bring-up, and validation workflow. <a href="product-design.html">Product design case study</a></p>
+        </div>
+      </article>
+
+      <article class="project" id="terpenes">
+        <div class="project-media">
+          <img src="assets/img/portfolio/terpene-lab-2.jpg" alt="Natural products research poster presentation">
+        </div>
+        <div class="project-body">
+          <p class="eyebrow">Rudolf Lab, University of Florida, 2022-2023</p>
+          <h2>Terpene Biosynthesis Screening</h2>
+          <p class="role">Undergraduate research assistant</p>
+          <p>My first research experience was in Professor Jeffrey Rudolf's lab, where I worked on bacterial terpene biosynthesis. The broader project asked how genome mining and heterologous expression could uncover new terpene synthase activity in bacteria.</p>
+          <p>I worked with an engineered GGPP-overproducing <em>E. coli</em> system to screen predicted UbiA terpene synthases. The work involved learning experimental discipline quickly: expression, screening, purification challenges, and the patience required when membrane-associated enzymes do not behave neatly.</p>
+          <p>Although the project was outside my current focus in neural engineering, it shaped how I understand research. I saw how a specific biochemical question can move from a screen to structural characterization, conference presentation, and publication.</p>
+          <p class="outcomes"><strong>Outcomes:</strong> three publications and American Society of Pharmacognosy presentation. <a href="assets/docs/natural-products-poster.pdf">Poster</a> <a href="https://rudolflab.com">Lab website</a></p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Melvin Opoku</p>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

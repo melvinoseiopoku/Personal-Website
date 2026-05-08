@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Design | Melvin Opoku</title>
+  <meta name="description" content="Product design case study for a bone density measurement system.">
+  <link rel="icon" href="assets/img/favicon.webp">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.webp">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">MO</span><span>Melvin Opoku</span></a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="news.html">News</a>
+      <a href="assets/docs/melvin-opoku-cv.pdf">CV</a>
+      <a href="publications.html">Publications</a>
+      <a href="life.html">Life</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Product design</p>
+      <h1>Bone Density Measurement System</h1>
+      <p>A product-design case study: custom PCB layout, embedded firmware bring-up, team communication, and mechanical integration.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="assets/docs/pcb_poster.pdf">Open poster PDF</a>
+        <a class="button" href="research.html#bone-density-pcb">Research entry</a>
+      </div>
+    </section>
+
+    <section class="case-study">
+      <figure class="case-hero">
+        <img src="assets/img/portfolio/pcb.jpg" alt="PCB layout for bone density measurement system">
+      </figure>
+
+      <div class="case-grid">
+        <aside class="case-meta" aria-label="Project details">
+          <p><strong>Context</strong><br>University of Florida / Exactech project</p>
+          <p><strong>Role</strong><br>Product designer</p>
+          <p><strong>Focus</strong><br>PCB design, firmware, CAD integration, validation</p>
+        </aside>
+
+        <div class="prose">
+          <h2>Product Design Lens</h2>
+          <p>This project was not just a board design exercise. It asked how sensing hardware, firmware, packaging, and communication fit together in a biomedical measurement product. I worked across schematic design, PCB layout, soldering, firmware bring-up, and validation.</p>
+
+          <h2>Build Scope</h2>
+          <p>The system used an AD5941 analog front end and STM32G0 microcontroller. I wrote Embedded C for SPI, I2C, OLED output, GPIO, reset behavior, and interrupt testing, then debugged power, communication, and mixed-signal behavior during bring-up.</p>
+
+          <h2>Team and Communication</h2>
+          <p>The poster and team photos show the other side of product design: explaining the design clearly, making tradeoffs visible, and helping people understand how the electrical system fits inside a larger product concept.</p>
+
+          <h2>CAD Credit</h2>
+          <p>The ZProbe exploded CAD assembly animation was created by <a href="https://www.linkedin.com/in/gardner-jack/">Jack Gardner</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-media-grid">
+      <img src="assets/img/portfolio/pcb_team1.JPG" alt="Product design team presentation">
+      <img src="assets/img/portfolio/pcb_team2.jpg" alt="Product design team">
+      <figure class="credited-video">
+        <video src="assets/img/portfolio/ZProbe_Assembly.MP4" controls muted playsinline preload="metadata"></video>
+        <figcaption>CAD model animation by <a href="https://www.linkedin.com/in/gardner-jack/">Jack Gardner</a>.</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Melvin Opoku</p>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
