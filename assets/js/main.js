@@ -81,6 +81,138 @@ const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
 root.dataset.theme = initialTheme;
 
+document.querySelectorAll(".consciousness-panel").forEach((panel) => {
+  const canvas = panel.querySelector(".neural-canvas");
+  const context = canvas?.getContext?.("2d");
+  const modeButtons = [...panel.querySelectorAll(".mode-chip")];
+  const activateButton = document.querySelector(".hero-activate");
+  let width = 0;
+  let height = 0;
+  let frame = 0;
+  let mode = "hybrid";
+  let points = [];
+  const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  const modes = {
+    human: { count: 22, speed: 0.18, link: 110 },
+    hybrid: { count: 34, speed: 0.32, link: 135 },
+    machine: { count: 48, speed: 0.48, link: 160 },
+  };
+
+  const setMode = (nextMode) => {
+    mode = nextMode;
+    panel.classList.remove("mode-human", "mode-hybrid", "mode-machine");
+    panel.classList.add(`mode-${mode}`);
+    modeButtons.forEach((button) => {
+      button.classList.toggle("active", button.dataset.mode === mode);
+    });
+    if (activateButton) {
+      activateButton.textContent = mode === "machine" ? "Return to hybrid" : "Activate machine layer";
+    }
+    seedPoints();
+  };
+
+  const resize = () => {
+    if (!canvas || !context) return;
+    const rect = panel.getBoundingClientRect();
+    const scale = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    canvas.width = Math.floor(width * scale);
+    canvas.height = Math.floor(height * scale);
+    context.setTransform(scale, 0, 0, scale, 0, 0);
+    seedPoints();
+  };
+
+  const seedPoints = () => {
+    const config = modes[mode];
+    points = Array.from({ length: config.count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * config.speed,
+      vy: (Math.random() - 0.5) * config.speed,
+      r: 1 + Math.random() * 2,
+    }));
+  };
+
+  const draw = () => {
+    if (!context || !canvas || !width || !height) return;
+    const config = modes[mode];
+    context.clearRect(0, 0, width, height);
+    context.lineWidth = 1;
+
+    points.forEach((point) => {
+      point.x += point.vx;
+      point.y += point.vy;
+      if (point.x < -20) point.x = width + 20;
+      if (point.x > width + 20) point.x = -20;
+      if (point.y < -20) point.y = height + 20;
+      if (point.y > height + 20) point.y = -20;
+    });
+
+    for (let i = 0; i < points.length; i += 1) {
+      for (let j = i + 1; j < points.length; j += 1) {
+        const a = points[i];
+        const b = points[j];
+        const distance = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distance > config.link) continue;
+        const alpha = (1 - distance / config.link) * (mode === "machine" ? 0.28 : 0.18);
+        context.strokeStyle = `rgba(127, 215, 217, ${alpha})`;
+        context.beginPath();
+        context.moveTo(a.x, a.y);
+        context.lineTo(b.x, b.y);
+        context.stroke();
+      }
+    }
+
+    points.forEach((point, index) => {
+      const pulse = Math.sin(frame / 22 + index) * 0.45 + 0.55;
+      context.fillStyle = `rgba(240, 139, 111, ${0.3 + pulse * 0.42})`;
+      context.beginPath();
+      context.arc(point.x, point.y, point.r + pulse, 0, Math.PI * 2);
+      context.fill();
+    });
+
+    frame += 1;
+    if (!reduceMotion) requestAnimationFrame(draw);
+  };
+
+  const updatePointer = (event) => {
+    const rect = panel.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    panel.style.setProperty("--mx", `${Math.max(0, Math.min(1, x)) * 100}%`);
+    panel.style.setProperty("--my", `${Math.max(0, Math.min(1, y)) * 100}%`);
+    panel.style.setProperty("--mx-num", Math.max(0, Math.min(1, x)).toFixed(3));
+    panel.style.setProperty("--my-num", Math.max(0, Math.min(1, y)).toFixed(3));
+  };
+
+  modeButtons.forEach((button) => {
+    button.addEventListener("click", () => setMode(button.dataset.mode || "hybrid"));
+  });
+
+  activateButton?.addEventListener("click", () => {
+    setMode(mode === "machine" ? "hybrid" : "machine");
+    panel.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  panel.addEventListener("pointermove", updatePointer);
+  panel.addEventListener("pointerleave", () => {
+    panel.style.setProperty("--mx", "50%");
+    panel.style.setProperty("--my", "42%");
+    panel.style.setProperty("--mx-num", "0.5");
+    panel.style.setProperty("--my-num", "0.42");
+  });
+
+  if (context) {
+    resize();
+    draw();
+    window.addEventListener("resize", resize);
+  }
+
+  setMode("hybrid");
+});
+
 document.querySelectorAll(".topbar").forEach((topbar) => {
   if (!topbar.querySelector(".nav-toggle")) {
     const nav = topbar.querySelector(".nav");
