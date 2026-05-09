@@ -258,14 +258,16 @@ main,
 .word-rotator {
   position: relative;
   display: block;
-  min-height: 1.05em;
+  min-height: 1.18em;
   color: var(--accent-2);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .word-rotator span {
   position: absolute;
   inset: 0 auto auto 0;
+  line-height: 1;
+  padding-bottom: 0.14em;
   opacity: 0;
   transform: translateY(80%);
   animation: rotateWords 12s infinite;
@@ -1110,12 +1112,17 @@ main,
 }
 
 .device-shell {
+  --device-tilt-x: 10deg;
+  --device-tilt-y: 0deg;
+  --device-lift: 0px;
   padding: 13px;
   border: 5px solid #5f5f5f;
   border-radius: 34px;
   background: #242424;
-  transform: perspective(1000px) rotateX(10deg);
+  transform: perspective(1000px) rotateX(var(--device-tilt-x)) rotateY(var(--device-tilt-y)) translateY(var(--device-lift));
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.45);
+  transform-origin: center;
+  will-change: transform;
 }
 
 .device-screen {
@@ -1672,16 +1679,35 @@ main,
   background: var(--ink);
   color: var(--bg);
   font-weight: 950;
+  text-decoration: none;
   box-shadow: var(--shadow);
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  animation: pubFloat 7s ease-in-out infinite;
+}
+
+.pub-node:hover,
+.pub-node:focus-visible {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  transform: translateY(-5px) scale(1.08);
+  box-shadow: 0 26px 70px rgba(23, 23, 23, 0.18);
+  outline: none;
 }
 
 .pub-node:nth-child(1) { left: 24px; top: 36px; }
-.pub-node:nth-child(2) { right: 34px; top: 58px; }
-.pub-node:nth-child(3) { left: 82px; bottom: 42px; }
-.pub-node:nth-child(4) { right: 74px; bottom: 28px; }
+.pub-node:nth-child(2) { right: 34px; top: 58px; animation-delay: -1.8s; }
+.pub-node:nth-child(3) { left: 82px; bottom: 42px; animation-delay: -3.2s; }
+.pub-node:nth-child(4) { right: 74px; bottom: 28px; animation-delay: -4.9s; }
 
 @keyframes orbit {
   to { transform: rotate(360deg); }
+}
+
+@keyframes pubFloat {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 8px -10px; }
+  50% { translate: -6px 6px; }
+  75% { translate: 5px 12px; }
 }
 
 .publication,
@@ -1697,6 +1723,7 @@ main,
   padding: 24px;
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 110px;
 }
 
 .publication::before {

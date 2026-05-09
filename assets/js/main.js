@@ -7,7 +7,7 @@ const overlayTitle = document.querySelector(".screen-overlay strong");
 
 const deviceStates = [
   {
-    image: "assets/img/portfolio/branding-2.jpg",
+    image: "assets/img/portfolio/pcb.jpg",
     label: "Product design · PCB",
     title: "Bone density measurement system",
   },
@@ -40,6 +40,25 @@ steps.forEach((step) => {
     if (overlayLabel && state) overlayLabel.textContent = state.label;
     if (overlayTitle && state) overlayTitle.textContent = state.title;
   });
+});
+
+document.querySelectorAll(".scroll-showcase").forEach((section) => {
+  const shell = section.querySelector(".device-shell");
+  if (!shell) return;
+
+  const updateDeviceTilt = () => {
+    const rect = section.getBoundingClientRect();
+    const viewport = window.innerHeight || document.documentElement.clientHeight;
+    const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height)));
+    const centered = (progress - 0.5) * 2;
+    shell.style.setProperty("--device-tilt-x", `${10 - centered * 11}deg`);
+    shell.style.setProperty("--device-tilt-y", `${centered * 7}deg`);
+    shell.style.setProperty("--device-lift", `${Math.sin(progress * Math.PI) * -18}px`);
+  };
+
+  updateDeviceTilt();
+  window.addEventListener("scroll", updateDeviceTilt, { passive: true });
+  window.addEventListener("resize", updateDeviceTilt);
 });
 
 const modal = document.querySelector("#gallery-modal");
@@ -299,6 +318,13 @@ pubFilters.forEach((filter) => {
       const show = value === "all" || publication.getAttribute("data-pub-topic") === value;
       publication.toggleAttribute("hidden", !show);
     });
+  });
+});
+
+document.querySelectorAll(".pub-node").forEach((node) => {
+  node.addEventListener("click", () => {
+    pubFilters.forEach((item) => item.classList.toggle("active", item.dataset.pubFilter === "all"));
+    publications.forEach((publication) => publication.removeAttribute("hidden"));
   });
 });
 

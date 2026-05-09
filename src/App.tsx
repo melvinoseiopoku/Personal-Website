@@ -19,7 +19,7 @@ function App() {
       <section className="container grid gap-4 md:grid-cols-4 pb-20">
         {[
           ["4", "publications"],
-          ["5", "research projects"],
+          ["4", "research projects"],
           ["3", "neuroscience labs"],
           ["1", "custom PCB system"],
         ].map(([value, label]) => (
