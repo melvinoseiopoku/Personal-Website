@@ -261,26 +261,23 @@ main,
   min-height: 1.18em;
   color: var(--accent-2);
   overflow: visible;
+  transition: height 220ms ease;
 }
 
 .word-rotator span {
   position: absolute;
-  inset: 0 auto auto 0;
+  inset: 0 0 auto 0;
   line-height: 1;
   padding-bottom: 0.14em;
   opacity: 0;
-  transform: translateY(80%);
-  animation: rotateWords 12s infinite;
+  transform: translateY(0.35em);
+  transition: opacity 220ms ease, transform 260ms ease;
+  white-space: normal;
 }
 
-.word-rotator span:nth-child(2) { animation-delay: 3s; }
-.word-rotator span:nth-child(3) { animation-delay: 6s; }
-.word-rotator span:nth-child(4) { animation-delay: 9s; }
-
-@keyframes rotateWords {
-  0%, 8% { opacity: 0; transform: translateY(80%); }
-  12%, 24% { opacity: 1; transform: translateY(0); }
-  29%, 100% { opacity: 0; transform: translateY(-80%); }
+.word-rotator span.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero-lede {

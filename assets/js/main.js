@@ -100,6 +100,25 @@ const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 const initialTheme = storedTheme || (prefersDark ? "dark" : "light");
 root.dataset.theme = initialTheme;
 
+document.querySelectorAll(".word-rotator").forEach((rotator) => {
+  const words = [...rotator.querySelectorAll("span")];
+  if (!words.length) return;
+  let activeIndex = 0;
+
+  const setActiveWord = (index) => {
+    activeIndex = index % words.length;
+    words.forEach((word, wordIndex) => {
+      word.classList.toggle("active", wordIndex === activeIndex);
+    });
+    const activeWord = words[activeIndex];
+    rotator.style.height = `${activeWord.scrollHeight}px`;
+  };
+
+  setActiveWord(0);
+  setInterval(() => setActiveWord(activeIndex + 1), 3000);
+  window.addEventListener("resize", () => setActiveWord(activeIndex));
+});
+
 document.querySelectorAll(".consciousness-panel").forEach((panel) => {
   const canvas = panel.querySelector(".neural-canvas");
   const context = canvas?.getContext?.("2d");
