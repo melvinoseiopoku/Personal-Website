@@ -37,6 +37,7 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   background:
     radial-gradient(circle at 12% 8%, rgba(126, 47, 34, 0.12), transparent 28rem),
@@ -47,11 +48,50 @@ body {
   transition: background 220ms ease, color 220ms ease;
 }
 
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='620' height='460' viewBox='0 0 620 460' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230f6b6e' stroke-opacity='.34' stroke-width='1.2'%3E%3Cpath d='M42 92 C118 36 178 58 236 126 S360 214 438 146 550 76 604 118'/%3E%3Cpath d='M20 332 C94 260 160 284 226 330 S342 390 416 330 522 246 604 286'/%3E%3Cpath d='M96 418 C118 332 162 258 236 126 274 58 326 42 388 64'/%3E%3Cpath d='M438 146 C460 224 454 274 416 330'/%3E%3Cpath d='M236 126 C244 210 238 274 226 330'/%3E%3C/g%3E%3Cg fill='%230f6b6e' fill-opacity='.42'%3E%3Ccircle cx='42' cy='92' r='3.5'/%3E%3Ccircle cx='236' cy='126' r='4.5'/%3E%3Ccircle cx='438' cy='146' r='4'/%3E%3Ccircle cx='604' cy='118' r='3.5'/%3E%3Ccircle cx='226' cy='330' r='4'/%3E%3Ccircle cx='416' cy='330' r='4.5'/%3E%3Ccircle cx='96' cy='418' r='3.5'/%3E%3Ccircle cx='388' cy='64' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 620px 460px;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  animation: synapseDrift 34s linear infinite;
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 22% 32%, rgba(15, 107, 110, 0.16) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 18%, rgba(126, 47, 34, 0.14) 0 1px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(15, 107, 110, 0.14) 0 1px, transparent 2px);
+  background-size: 240px 220px, 320px 300px, 280px 260px;
+  opacity: 0.28;
+  animation: synapsePulse 7s ease-in-out infinite alternate;
+}
+
 :root[data-theme="dark"] body {
   background:
     radial-gradient(circle at 12% 8%, rgba(240, 139, 111, 0.13), transparent 28rem),
     radial-gradient(circle at 86% 18%, rgba(127, 215, 217, 0.12), transparent 30rem),
     linear-gradient(180deg, #171614 0%, var(--bg) 48%, #0d0d0c 100%);
+}
+
+:root[data-theme="dark"] body::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='620' height='460' viewBox='0 0 620 460' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%237fd7d9' stroke-opacity='.5' stroke-width='1.2'%3E%3Cpath d='M42 92 C118 36 178 58 236 126 S360 214 438 146 550 76 604 118'/%3E%3Cpath d='M20 332 C94 260 160 284 226 330 S342 390 416 330 522 246 604 286'/%3E%3Cpath d='M96 418 C118 332 162 258 236 126 274 58 326 42 388 64'/%3E%3Cpath d='M438 146 C460 224 454 274 416 330'/%3E%3Cpath d='M236 126 C244 210 238 274 226 330'/%3E%3C/g%3E%3Cg fill='%237fd7d9' fill-opacity='.58'%3E%3Ccircle cx='42' cy='92' r='3.5'/%3E%3Ccircle cx='236' cy='126' r='4.5'/%3E%3Ccircle cx='438' cy='146' r='4'/%3E%3Ccircle cx='604' cy='118' r='3.5'/%3E%3Ccircle cx='226' cy='330' r='4'/%3E%3Ccircle cx='416' cy='330' r='4.5'/%3E%3Ccircle cx='96' cy='418' r='3.5'/%3E%3Ccircle cx='388' cy='64' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.2;
+  mix-blend-mode: screen;
+}
+
+:root[data-theme="dark"] body::after {
+  opacity: 0.18;
 }
 
 a {
@@ -221,9 +261,26 @@ a {
 }
 
 main,
-.footer {
+.footer,
+.site-footer {
+  position: relative;
+  z-index: 1;
   width: min(var(--max), calc(100% - 32px));
   margin: 0 auto;
+}
+
+.topbar {
+  position: sticky;
+  z-index: 20;
+}
+
+@keyframes synapseDrift {
+  to { background-position: 620px 460px; }
+}
+
+@keyframes synapsePulse {
+  from { transform: translate3d(0, 0, 0); opacity: 0.18; }
+  to { transform: translate3d(12px, -10px, 0); opacity: 0.32; }
 }
 
 .hero {
@@ -864,6 +921,8 @@ main,
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
   .consciousness-panel::after,
   .scan-beam,
   .reveal-ring,
