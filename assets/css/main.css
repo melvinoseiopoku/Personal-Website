@@ -257,7 +257,9 @@ a {
 :root[data-theme="dark"] .life-card,
 :root[data-theme="dark"] .pub-filter-bar,
 :root[data-theme="dark"] .pub-graphic,
-:root[data-theme="dark"] .youtube-card {
+:root[data-theme="dark"] .youtube-card,
+:root[data-theme="dark"] .startup-spotlight,
+:root[data-theme="dark"] .startup-principles span {
   background: rgba(31, 30, 27, 0.86);
   color: var(--ink);
 }
@@ -990,6 +992,9 @@ main,
 }
 
 .stats-strip a,
+.startup-spotlight,
+.startup-visual,
+.startup-principles span,
 .publication,
 .project,
 .case-grid,
@@ -1040,6 +1045,140 @@ main,
   color: color-mix(in srgb, var(--muted), var(--ink) 22%);
   font-size: 14px;
   font-weight: 850;
+}
+
+.startup-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(360px, 1fr);
+  gap: 36px;
+  align-items: center;
+  margin-top: 72px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 12px);
+  background:
+    radial-gradient(circle at 86% 24%, color-mix(in srgb, var(--gold), transparent 70%), transparent 16rem),
+    radial-gradient(circle at 18% 78%, color-mix(in srgb, var(--accent-2), transparent 82%), transparent 18rem),
+    rgba(255, 255, 255, 0.68);
+  box-shadow: var(--shadow);
+  scroll-margin-top: 110px;
+}
+
+.startup-spotlight:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--block-hover-shadow);
+}
+
+.startup-copy h2 {
+  margin: 8px 0 0;
+  font-size: clamp(38px, 6vw, 78px);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+}
+
+.startup-copy p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.startup-principles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.startup-principles span {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.startup-principles span:hover {
+  transform: translateY(-3px);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--gold), transparent 70%), color-mix(in srgb, var(--accent-2), transparent 78%)),
+    var(--panel);
+  box-shadow: var(--block-hover-shadow);
+}
+
+.startup-visual {
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: #10100f;
+  box-shadow: 0 28px 90px rgba(23, 23, 23, 0.2);
+  isolation: isolate;
+}
+
+.startup-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.58)),
+    radial-gradient(circle at 52% 72%, rgba(201, 151, 63, 0.28), transparent 16rem);
+  pointer-events: none;
+}
+
+.startup-visual img,
+.startup-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.startup-video {
+  z-index: 1;
+  opacity: 0.78;
+}
+
+.startup-visual img {
+  z-index: 0;
+  transform: scale(1.04);
+}
+
+.startup-badge {
+  position: absolute;
+  z-index: 3;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(16, 16, 15, 0.68);
+  color: #fff;
+  backdrop-filter: blur(18px);
+}
+
+.startup-badge span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.startup-badge strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(26px, 4vw, 42px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
 }
 
 .section-head {
@@ -2093,6 +2232,7 @@ main,
 
 @media (max-width: 980px) {
   .hero,
+  .startup-spotlight,
   .device-stage,
   .contact-panel {
     grid-template-columns: 1fr;
@@ -2160,7 +2300,7 @@ main,
   }
 
   .topbar.nav-open .nav {
-    max-height: 240px;
+    max-height: 300px;
     padding-top: 4px;
     opacity: 1;
     pointer-events: auto;
@@ -2236,8 +2376,13 @@ main,
   }
 
   .scroll-showcase,
+  .startup-spotlight,
   .contact-panel {
     padding: 20px;
+  }
+
+  .startup-visual {
+    min-height: 360px;
   }
 
   .device-screen,
