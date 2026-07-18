@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { HeroDemo } from "@/components/demos/animated-hero-demo";
 import { HeroScrollDemo } from "@/components/demos/container-scroll-demo";
 import { BentoGridGalleryDemo } from "@/components/demos/bento-grid-gallery-demo";
@@ -13,7 +14,8 @@ const publications = [
 
 function App() {
   return (
-    <main className="min-h-screen bg-background">
+    <>
+      <main className="min-h-screen bg-background">
       <HeroDemo />
 
       <section className="container grid gap-4 md:grid-cols-4 pb-20">
@@ -62,6 +64,8 @@ function App() {
         <ScrollTiltedGrid loop={false} maxWidth="3xl" gap={6} rounded="1rem" />
       </section>
     </main>
+    <Analytics />
+    </>
   );
 }
 
